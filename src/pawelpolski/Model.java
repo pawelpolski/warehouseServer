@@ -29,7 +29,9 @@ public class Model {
     public Model() throws IOException {
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            c = DriverManager.getConnection("jdbc:sqlite:warehouseDataBase.db");
+
+
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
@@ -66,6 +68,28 @@ public class Model {
         System.out.println("Table created successfully");
         equipments = new ArrayList<>();
     }
+    /**
+     * add fixed types of equipments to array list
+     */
+    public void addTypesOfEquipmentsToList() {
+        Statement stmt = null;
+        ArrayList<Equipment> l = new ArrayList();
+        try {
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM TYPES;");
+
+            while (rs.next()) {
+                equipmentsTypes.add(rs.getString("type"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Initialization types done successfully");
+
+    }
 
     public void updateEquipment(Equipment e) {
         Statement stmt = null;
@@ -80,27 +104,15 @@ public class Model {
             System.err.println(e.getClass().getName() + ": " + ex.getMessage());
             System.exit(0);
         }
-        System.out.println("Operation done successfully");
+        System.out.println("Updated successfully");
 
     }
 
-    /**
-     * add fixed types of equipments to array list
-     */
-    public void addTypesOfEquipmentsToList() {
-        equipmentsTypes.add("Pace DCR7111");
-        equipmentsTypes.add("Cisco HD8485");
-        equipmentsTypes.add("Cisco HD8685");
-        equipmentsTypes.add("Horizon HD High");
-        equipmentsTypes.add("Horizon DVR High");
-        equipmentsTypes.add("Horizon DVR Low");
-        equipmentsTypes.add("Mediamudul CI+");
-        equipmentsTypes.add("Modem");
-        equipmentsTypes.add("Router");
-    }
+
+
 
     /**
-     * Method alows to add new Equipment to list
+     * Method allows to add new Equipment to list
      */
 
     public ArrayList<Equipment> addEquipment(Equipment e) {
@@ -152,7 +164,7 @@ public class Model {
             System.err.println(e.getClass().getName() + ": " + ex.getMessage());
             System.exit(0);
         }
-        System.out.println("Operation done successfully");
+        System.out.println("Removed successfully");
 
         return equipments;
     }
@@ -179,7 +191,7 @@ public class Model {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("Operation done successfully");
+        System.out.println("Equipments initialized successfully");
         equipments = l;
         return l;
     }
