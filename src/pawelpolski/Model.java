@@ -1,19 +1,11 @@
-
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+package pawelpolski;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by macbook on 01.05.2017.
@@ -46,7 +38,6 @@ public class Model {
 
         addTypesOfEquipmentsToList();
         equipments = getEquipments();
-        //getDataFromFileAndAddToTableList();
     }
 
     public void reset() {
@@ -125,7 +116,7 @@ public class Model {
 
         try {
             stmt = c.createStatement();
-            String sql = "INSERT INTO EQUIPMENTS VALUES (" + e.getId() + ", '" + e.getSerialNumber() + "', '" + e.getType() + "','" + e.getStatus() + "')";
+            String sql = "INSERT INTO EQUIPMENTS VALUES (" + e.getId() + ", '" + e.getSerialNumber() + "', '" + e.getType() + "', '" + e.getStatus() + "')";
             stmt.executeUpdate(sql);
 
             stmt.close();
@@ -164,29 +155,6 @@ public class Model {
         System.out.println("Operation done successfully");
 
         return equipments;
-    }
-
-    /**
-     * This is method which lets me export Table View list into Equipments.csv
-     * This file is "dataBase-like" for temprary usage until we get to know about data base connections.
-     */
-    public void writeExcel() throws Exception {
-        Writer writer = null;
-        try {
-            File file = new File("Equipments.csv");
-            writer = new BufferedWriter(new FileWriter(file));
-            String columns = "ID,Serial Number,Type,Status\n";
-            writer.write(columns);
-            for (Equipment equipment : equipments) {
-                String text = equipment.getId() + "," + equipment.getSerialNumber() + "," + equipment.getType() + "," + equipment.getStatus() + "\n";
-                writer.write(text);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            writer.flush();
-            writer.close();
-        }
     }
 
 
