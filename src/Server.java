@@ -22,7 +22,7 @@ public class Server extends Thread {
 
         try {
             ServerSocket server = new ServerSocket(portNumber);
-            System.out.println("Server uruchomiona na porcie " + portNumber);
+            System.out.println("Server started on port: " + portNumber);
             while (!isDone) {
                 Socket socket = server.accept();
                 if (isDone) {
